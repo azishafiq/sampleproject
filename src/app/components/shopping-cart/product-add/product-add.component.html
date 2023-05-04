@@ -1,0 +1,57 @@
+
+<form [formGroup]="myForm" (ngSubmit)="submit()">
+
+ <div class="form-group">  
+    
+    <p>
+        <label for="name"> Name</label>
+        <input formControlName="name" type="text" class="form-control" name="name">
+    </p>
+
+    <p>
+        <label for="price">Price</label>
+        <input formControlName="price" type="text" class="form-control" name="price">
+    </p>
+
+    <p>
+        <label for="description">Description </label>
+        <textarea formControlName="description" type="text" class="form-control"name="description"> </textarea>
+    </p>
+   
+    
+        <input  formControlName="image" type="file"  class="form-control" (change)="onImageChange($event)">
+        <div *ngIf="f.image.touched && f.image.invalid" class="alert alert-danger">
+            <div *ngIf="f.image.errors.required">Image is required.</div>
+        </div>
+   
+        <img [src]="imageSrc" *ngIf="imageSrc" style="height: 300px; width:500px">
+
+
+        
+            <label for="tags">Tags</label>
+            <select formControlName="tags" class="form-control" name="tags"> 
+                <option value="hot"> Hot</option>
+                <option value="new"> New</option>
+                <option value="popular"> Popular</option>
+            </select>
+        
+
+            <label for="preferencetype">Preference Type</label>
+            <select formControlName="preferenceType" class="form-control" name="preferenceyype"> 
+                <option value="single select"> Single</option>
+                <option value="multi select"> Multi Select</option>
+            </select>
+
+   
+            <label for="preferences">Preferences</label>
+            <textarea formControlName="preferences" name="preferences"  cols="30" rows="10"></textarea>
+
+    <p>
+      <button class="btn btn-primary"  type="submit">Submit</button>
+    </p> 
+   
+
+</div>
+
+   
+  </form>
