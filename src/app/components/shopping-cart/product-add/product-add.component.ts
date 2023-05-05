@@ -1,7 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Alert } from 'selenium-webdriver';
 import { Product } from 'src/app/models/product';
 import { ProductService } from 'src/app/services/product.service';
@@ -13,12 +13,12 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductAddComponent implements OnInit {
 
-
+  submitted =false;
   imageSrc: string;
   myForm = new FormGroup({
    name: new FormControl('', [Validators.required]),
-   price: new FormControl('', [Validators.required]),
-   description: new FormControl('', ),
+   price: new FormControl('', [Validators.required,   Validators.pattern("^[0-9]*$"), ] ) ,
+   description: new FormControl('',[Validators.required] ),
    image: new FormControl('', ),
    fileSource: new FormControl('',),
    tags: new FormControl('',),
@@ -26,17 +26,28 @@ export class ProductAddComponent implements OnInit {
    preferences: new FormControl('',)
 
  });
+  productId: any;
 
  
   constructor(   private productService: ProductService,
-    private router: Router) { }
+    private router: Router,
+    private route: ActivatedRoute) { }
 
 
   get f(){
+    debugger
     return this.myForm.controls;
   }
   
   ngOnInit() {
+
+    this.productId = this.route.snapshot.params['id'];
+    if(this.productId)
+    {
+      this.LoadProduct();
+    }  
+    
+
   }
 
   onImageChange(event) {
@@ -61,18 +72,57 @@ export class ProductAddComponent implements OnInit {
 
 
   submit(){
+    if(this.myForm.valid)
+    {
+      if(this.productId)
+      {
+        this.productService.editProduct(this.productId,this.prepareProductJson(this.myForm.value))
+        .subscribe(res => {
+          
+          this.router.navigate(['/product-list']); 
+        })
+
+      }
+      else
+      {
+        this.productService.addProduct(this.prepareProductJson(this.myForm.value))
+        .subscribe(res => {
+          
+          this.router.navigate(['/product-list']); 
+        })
+      }  
+    }    
+
+   
     
-    this.productService.addProduct(this.prepareProductJson(this.myForm.value))
-      .subscribe(res => {
-        
-        this.router.navigate(['/products']); 
-      })
   }
 
   prepareProductJson(formValue)
   {
   return new Product(formValue.name,formValue.description,formValue.price,
     formValue.fileSource,formValue.tags,formValue.preferenceType,formValue.preferences);
+
+  }
+
+  LoadProduct()
+  {
+    this.productService.getProductById(this.productId).subscribe((product : any) => {
+      this.myForm.controls['name'].setValue(product.product.name);
+      this.myForm.controls['price'].setValue(product.product.price);
+      this.myForm.controls['description'].setValue(product.product.description);
+      //this.myForm.controls['image'].setValue(product.product.imageSrc);
+      this.imageSrc = product.product.imageSrc;
+      this.myForm.patchValue({
+        fileSource:      this.imageSrc
+      });
+
+      this.myForm.controls['tags'].setValue(product.product.tags);
+      this.myForm.controls['preferenceType'].setValue(product.product.preferenceType);
+      this.myForm.controls['preferences'].setValue(product.product.preferences);
+      
+
+
+  })
 
   }
 

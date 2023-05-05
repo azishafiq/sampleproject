@@ -4,6 +4,7 @@ import { MessengerService } from 'src/app/services/messenger.service'
 import { CartService } from 'src/app/services/cart.service'
 import { WishlistService } from 'src/app/services/wishlist.service';
 import { ProductService } from 'src/app/services/product.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-item',
@@ -14,22 +15,18 @@ export class ProductItemComponent implements OnInit {
 
   @Input() productItem: any;
 
-  @Input() addedToWishlist: boolean;
-
   constructor(
     private msg: MessengerService,
     private cartService: CartService,
-    private productService: ProductService
+    private productService: ProductService,
+    private router: Router
   ) { }
 
 
   preferences:any;
 
   ngOnInit() {
-  debugger  
     this.preferences =  this.productItem.product.preferences.split('###');
-
-
   }
 
   handleAddToCart() {
@@ -38,17 +35,17 @@ export class ProductItemComponent implements OnInit {
     })
   }
 
-  // handleAddToWishlist() {
-  //   this.wishlistService.addToWishlist(this.productItem.id).subscribe(() => {
-  //     this.addedToWishlist = true;
-  //   })
-  // }
-
-  handleRemoveProductItem() {
+   handleRemoveProductItem() {
     this.productService.removeProduct(this.productItem.id).subscribe(() => {
     })
 
     window.location.reload();
+  }
+
+  handleEditProduct()
+  {
+    this.router.navigate(['/product-add',this.productItem.id]); 
+
   }
 
 }

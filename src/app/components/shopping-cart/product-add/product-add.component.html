@@ -3,30 +3,48 @@
 
  <div class="form-group">  
     
-    <p>
+    <div>
         <label for="name"> Name</label>
         <input formControlName="name" type="text" class="form-control" name="name">
-    </p>
+        
+        <div *ngIf="f.name.invalid && f.name.touched" class="alert alert-danger">
+            <div *ngIf="f.name.errors.required">Name is required.</div>
+        </div>
+   
 
-    <p>
+    </div>
+
+    <div>
         <label for="price">Price</label>
-        <input formControlName="price" type="text" class="form-control" name="price">
-    </p>
+        <input formControlName="price" type="number" class="form-control" name="price">
 
-    <p>
+        <div *ngIf="f.price.touched && f.price.invalid" class="alert alert-danger">
+            <div *ngIf="f.price.errors.required">Price is required.</div>
+        </div>
+   
+    </div>
+
+    <div>
         <label for="description">Description </label>
         <textarea formControlName="description" type="text" class="form-control"name="description"> </textarea>
-    </p>
+
+        <div *ngIf="f.description.touched && f.description.invalid" class="alert alert-danger">
+            <div *ngIf="f.description.errors.required">Description is required.</div>
+        </div>
+    </div>
    
-    
+    <div>
+
         <input  formControlName="image" type="file"  class="form-control" (change)="onImageChange($event)">
         <div *ngIf="f.image.touched && f.image.invalid" class="alert alert-danger">
             <div *ngIf="f.image.errors.required">Image is required.</div>
         </div>
    
-        <img [src]="imageSrc" *ngIf="imageSrc" style="height: 300px; width:500px">
+        <img [src]="imageSrc" *ngIf="imageSrc" style="height: 300px; width:500px"> 
+    </div>
+        
 
-
+    <div>
         
             <label for="tags">Tags</label>
             <select formControlName="tags" class="form-control" name="tags"> 
@@ -34,20 +52,25 @@
                 <option value="new"> New</option>
                 <option value="popular"> Popular</option>
             </select>
-        
+        </div>
 
-            <label for="preferencetype">Preference Type</label>
+        <div>   
+        <label for="preferencetype">Preference Type</label>
             <select formControlName="preferenceType" class="form-control" name="preferenceyype"> 
                 <option value="single select"> Single</option>
                 <option value="multi select"> Multi Select</option>
             </select>
-
+            </div>
    
-            <label for="preferences">Preferences</label>
+            <div>
+                <label for="preferences">Preferences</label>
             <textarea formControlName="preferences" name="preferences"  cols="30" rows="10"></textarea>
+            </div>
+
+            
 
     <p>
-      <button class="btn btn-primary"  type="submit">Submit</button>
+      <button class="btn btn-primary" [disabled]="myForm.invalid"  type="submit">Submit</button>
     </p> 
    
 

@@ -19,7 +19,6 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { PageNotFoundComponent } from './components/shared/page-not-found/page-not-found.component';
 import { ProductAddComponent } from './components/shopping-cart/product-add/product-add.component';
-import { ProductEditComponent } from './components/shopping-cart/product-edit/product-edit.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +36,6 @@ import { ProductEditComponent } from './components/shopping-cart/product-edit/pr
     RegisterComponent,
     PageNotFoundComponent,
     ProductAddComponent,
-    ProductEditComponent
   ],
   imports: [
     BrowserModule,
