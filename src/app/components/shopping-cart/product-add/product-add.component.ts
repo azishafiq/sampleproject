@@ -35,7 +35,6 @@ export class ProductAddComponent implements OnInit {
 
 
   get f(){
-    debugger
     return this.myForm.controls;
   }
   
@@ -110,7 +109,6 @@ export class ProductAddComponent implements OnInit {
       this.myForm.controls['name'].setValue(product.product.name);
       this.myForm.controls['price'].setValue(product.product.price);
       this.myForm.controls['description'].setValue(product.product.description);
-      //this.myForm.controls['image'].setValue(product.product.imageSrc);
       this.imageSrc = product.product.imageSrc;
       this.myForm.patchValue({
         fileSource:      this.imageSrc
@@ -120,8 +118,6 @@ export class ProductAddComponent implements OnInit {
       this.myForm.controls['preferenceType'].setValue(product.product.preferenceType);
       this.myForm.controls['preferences'].setValue(product.product.preferences);
       
-
-
   })
 
   }

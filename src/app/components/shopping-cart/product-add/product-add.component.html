@@ -26,7 +26,7 @@
 
     <div>
         <label for="description">Description </label>
-        <textarea formControlName="description" type="text" class="form-control"name="description"> </textarea>
+        <textarea formControlName="description" type="text" class="form-control"name="description" maxlength="2000"> </textarea>
 
         <div *ngIf="f.description.touched && f.description.invalid" class="alert alert-danger">
             <div *ngIf="f.description.errors.required">Description is required.</div>

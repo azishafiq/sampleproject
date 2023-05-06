@@ -13,7 +13,7 @@ export class NavComponent implements OnInit {
 
   ngOnInit() {
 
-    this.msg.getMsg().subscribe((data) => {
+    this.msg.getMsg().subscribe((data : any) => {
       if(data == 0)
       {
         this.cartCount--;
@@ -22,10 +22,14 @@ export class NavComponent implements OnInit {
           this.cartCount =0;
         }
       }
+      else if(data > 0)
+      {
+        this.cartCount = data;
+        
+      }
       else
       {
         this.cartCount++;
-        
       }
       
     })

@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from 'src/app/services/product.service'
 import { Product } from 'src/app/models/product';
 import { WishlistService } from 'src/app/services/wishlist.service';
+import { CartService } from 'src/app/services/cart.service';
+import { MessengerService } from 'src/app/services/messenger.service';
 
 @Component({
   selector: 'app-product-list',
@@ -16,12 +18,13 @@ export class ProductListComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private wishlistService: WishlistService
+    private cartService: CartService,
+    private msgService: MessengerService
   ) { }
 
   ngOnInit() {
     this.loadProducts();
-    this.loadWishlist();
+    this.loadCartItems();
   }
 
   loadProducts() {
@@ -30,9 +33,13 @@ export class ProductListComponent implements OnInit {
     })
   }
 
-  loadWishlist() {
-    this.wishlistService.getWishlist().subscribe(productIds => {
-      this.wishlist = productIds
+  loadCartItems()
+  {
+  this.cartService.getCartItems().subscribe(result => {
+      
+      this.msgService.sendMsg(result.length)
+    
     })
   }
+
 }
